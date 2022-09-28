@@ -1,3 +1,7 @@
-Data
+.Rhistory
 Cours.pdf
 .ipynb_checkpoints
+*.zip
+*.txt
+*.R
+
