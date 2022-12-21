@@ -204,6 +204,11 @@ def loadWeights(path: str) -> dict:
     with open(path, "r") as file:
         weights = yaml.load(file, Loader=SafeLoader)
 
+
+def findBestRandomWeight():
+    
+    pass
+
 if __name__ == "__main__":
     
     data = importData("./Data/student_all.csv")
