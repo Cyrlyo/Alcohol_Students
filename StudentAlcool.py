@@ -203,7 +203,7 @@ def loadWeights(path: str) -> dict:
     
     with open(path, "r") as file:
         weights = yaml.load(file, Loader=SafeLoader)
-
+    return weights
 
 def findBestRandomWeight():
     
