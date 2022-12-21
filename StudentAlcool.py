@@ -55,9 +55,6 @@ def printDataInfos(data: DataFrame):
 def DFToNP(data: DataFrame) -> ndarray:
     data_vec = data.to_numpy()
     print(f"\nOriginal shape: {data.shape} | New shape: {data_vec.shape}")
-    rd_choise = random.randint(0, data_vec.shape[0])
-    print(data_vec[rd_choise])
-    print(rd_choise)
     return data_vec
 
 def printScoresStats(list_of_scores: list):
@@ -86,7 +83,7 @@ def createGraph(G: Graph, data: DataFrame, data_vec: ndarray) -> Graph:
                     list_of_scores.append(score)
 # On ne peut pas garder 10.5 il faut trouver un moyen d'avoir une metric qui se calcule. Ou savegarder pour chaque paire
 # de noeud le score et en suite y ajouter ou non l'arête
-            if score < 8:
+            if score < sum(list(weights.values()))//3:
                 G.add_edge(data_vec[vec, -1], data_vec[vecs, -1])
             else: 
                 pass
@@ -102,45 +99,7 @@ def plotGraphStats(G: Graph):
 def randomWeights(data: DataFrame) -> dict:
     
     random.seed(42)
-    # weights = {key:random.uniform(0, 2) for key in list(data.columns)}
-    weights = {'school': 1,
-             'gender':1.5,
-             'age':0.5,
-             'address':1,
-             'famsize':0.5,
-             'Pstatus':1.5,
-             'Medu':1,
-             'Fedu':1,
-             'Mjob':1.5,
-             'Fjob':1.5,
-             'reason':0.5,
-             'guardian':1,
-             'traveltime':0.5,
-             'studytime':1,
-             'failures':1,
-             'schoolsup':1,
-             'famsup':1,
-             'paid':0.5,
-             'activities':1,
-             'nursery':0.5,
-             'higher':0.5,
-             'internet':1.5,
-             'romantic':1,
-             'famrel':1.5,
-             'freetime':0.5,
-             'goout':1,
-             'Dalc':1.5,
-             'Walc':1.5,
-             'health':1,
-             'absences':1,
-             'G1':0.5,
-             'G2':0.5,
-             'G3':0.5,
-             'course':0.5,
-             'alc':1.5,
-             'Names':0
-            }
-
+    weights = {key:random.uniform(0, 2) for key in list(data.columns)}
     return weights
 
 def graphPlot(G: Graph):
