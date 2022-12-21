@@ -242,6 +242,7 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
             if not os.path.exists("./weights/best_score.txt") or not os.path.exists("./weights/weights.yaml"):
                 saveWeights(weights)
                 saveScore(max(score_list))
+                print("\nWeights & score saved")
     
     return results, np.array(score_list)
 
