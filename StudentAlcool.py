@@ -213,7 +213,9 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
     score_list = []
     try:
         best_saved_score = float(loadScore("./weights/best_score.txt"))
-    except: pass
+        print(f"Best saved score: {best_saved_score}")
+    except:
+        print("Saved score not found, will be created")
     
     for i in range(1):
         start_time = time.time()
@@ -233,12 +235,12 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
         
         try:
             if max(score_list) > best_saved_score:
-                saveWeights(weights)
+                saveWeights(weights, "./weights")
                 saveScore(max(score_list))
                 print("\nWeights & score saved")
         except: 
             if not os.path.exists("./weights/best_score.txt") or not os.path.exists("./weights/weights.yaml"):
-                saveWeights(weights)
+                saveWeights(weights, "./weights")
                 saveScore(max(score_list))
                 print("\nWeights & score saved")
     
