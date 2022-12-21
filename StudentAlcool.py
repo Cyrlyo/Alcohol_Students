@@ -250,12 +250,15 @@ if __name__ == "__main__":
     printDataInfos(data)
     
     data_vec = DFToNP(data)
-    
-    results, score_list = findBestRandomWeight(data, data_vec)
-    print("--------------------------------------------")
-    print(f"\nBest model: model_{np.argmax(score_list)}")
-    best_weights = results["model_%s"% np.argmax(score_list)]["weights"]
-    print(f"Best score: {max(score_list)}")
+    if True:
+        results, score_list = findBestRandomWeight(data, data_vec)
+        print("--------------------------------------------")
+        print(f"\nBest model: model_{np.argmax(score_list)}")
+        best_weights = results["model_%s"% np.argmax(score_list)]["weights"]
+        print(f"Best score: {max(score_list)}")
+    saveScore(max(score_list))
+    best_saved_score = float(loadScore("./weights/best_score.txt"))
+
     
     if False:
         G = nx.Graph()
@@ -271,4 +274,4 @@ if __name__ == "__main__":
         data = addPartitionToData(data, partition)
         saveDFToCSV(data)
 
-    saveWeights(best_weights, "./weights")
+    # saveWeights(best_weights, "./weights")
