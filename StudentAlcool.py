@@ -234,6 +234,8 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
 
 if __name__ == "__main__":
     
+    start_time = time.time()
+    
     data = importData("./Data/student_all.csv")
     data = prepareData(data)
     printDataInfos(data)
@@ -261,3 +263,6 @@ if __name__ == "__main__":
         saveDFToCSV(data)
 
     saveWeights(best_weights, "./weigths")
+    
+    delta_time = time.time() - start_time
+    print(f"Execution time: {time.strftime('%H:%M:%S', time.gmtime(delta_time))}")
