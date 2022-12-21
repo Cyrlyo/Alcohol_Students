@@ -238,7 +238,10 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
                 saveWeights(weights)
                 saveScore(max(score_list))
                 print("\nWeights & score saved")
-        except: pass
+        except: 
+            if not os.path.exists("./weights/best_score.txt") or not os.path.exists("./weights/weights.yaml"):
+                saveWeights(weights)
+                saveScore(max(score_list))
     
     return results, np.array(score_list)
 
@@ -261,15 +264,14 @@ if __name__ == "__main__":
     printDataInfos(data)
     
     data_vec = DFToNP(data)
-    # results, score_list = findBestRandomWeight(data, data_vec)
-    # print("--------------------------------------------")
-    # print(f"\nBest model: model_{np.argmax(score_list)}")
-    # best_weights = results["model_%s"% np.argmax(score_list)]["weights"]
-    # print(f"Best score: {max(score_list)}")
+    results, score_list = findBestRandomWeight(data, data_vec)
+    print("--------------------------------------------")
+    print(f"\nBest model: model_{np.argmax(score_list)}")
+    best_weights = results["model_%s"% np.argmax(score_list)]["weights"]
+    print(f"Best score: {max(score_list)}")
     
-    weights = loadWeights("./weights/weights.yaml")
     
-    if True:
+    if False:
         G = nx.Graph()
         G, weights = createGraph(G, data, data_vec)
         graphPlot(G)
@@ -282,5 +284,3 @@ if __name__ == "__main__":
 
         data = addPartitionToData(data, partition)
         saveDFToCSV(data)
-        saveScore(modularity)
-        # saveWeights(best_weights, "./weights")
