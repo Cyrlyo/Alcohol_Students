@@ -211,7 +211,7 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
     
     results = {}
     score_list = []
-    for i in range(10):
+    for i in range(50):
         start_time = time.time()
         print("----------------")
         print(f"\nEpoch: {i}")
