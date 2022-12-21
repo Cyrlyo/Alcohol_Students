@@ -13,6 +13,7 @@ from pandas import DataFrame
 from numpy import ndarray
 from networkx.classes.graph import Graph
 from tqdm import tqdm
+from collections import defaultdict
 
 def importData(path: str) -> DataFrame:
     
@@ -150,6 +151,15 @@ def louvain_community_quality(G, communities):
     modularity = nx.algorithms.community.modularity(G, communities)
     
     return modularity
+
+def refactoringPartition(partition: dict) -> list:
+
+    sets = defaultdict(set)
+    for key, value in partition.items():
+        sets[value].add(key)
+    part_by_com = [sets[x] for x in list(sets.keys())]
+    
+    return part_by_com
 
 if __name__ == "__main__":
     

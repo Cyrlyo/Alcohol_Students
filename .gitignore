@@ -2,9 +2,11 @@
 Cours.pdf
 .ipynb_checkpoints
 *.zip
-*.txt
+*.csv
 *.R
 *.xls
 *.sxlsx
 venv
 /venv
+/Data
+./Data
