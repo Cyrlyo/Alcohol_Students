@@ -143,7 +143,7 @@ if __name__ == "__main__":
     
     start_time = time.time()
     
-    optimize, epoch = parseArguments()
+    optimize, epoch, graph = parseArguments()
     
     
     data, data_vec = retrieveData("./Data/student_all.csv")
@@ -152,7 +152,7 @@ if __name__ == "__main__":
         randomWeightOptimizer(data, data_vec, epoch)
     
     
-    if False:
+    if graph:
         G = nx.Graph()
         G, weights = createGraph(G, data, data_vec, random_weights=False)
         graphPlot(G)
