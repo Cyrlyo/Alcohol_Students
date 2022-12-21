@@ -41,7 +41,6 @@ def createName(data: DataFrame) -> DataFrame:
     
     indexes = [i for i in range(data.shape[0])]
     indexes = pd.DataFrame({"Name":indexes})
-    indexes
     data = pd.concat([data, indexes], axis=1)
     
     return data
@@ -76,7 +75,6 @@ def createGraph(G: Graph, data: DataFrame, data_vec: ndarray) -> Graph:
     list_of_scores = []
     for vec, tq in zip(range(1, data_vec.shape[0]), tqdm(range(1, data_vec.shape[0]))):
         for vecs in range(data_vec.shape[0]):
-            list_difference = []
             score = 0
             for col in range(data_vec.shape[1]):
                 if data_vec[vec - 1, col-1] != data_vec[vecs, col-1]:
@@ -87,6 +85,7 @@ def createGraph(G: Graph, data: DataFrame, data_vec: ndarray) -> Graph:
                 G.add_edge(data_vec[vec, -1], data_vec[vecs, -1])
             else: 
                 pass
+
     printScoresStats(list_of_scores)
     plotGraphStats(G)
     G = prepareGraph(G)
