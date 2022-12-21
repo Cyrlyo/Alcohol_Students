@@ -15,6 +15,8 @@ from networkx.classes.graph import Graph
 from tqdm import tqdm
 from collections import defaultdict
 import os
+from typing import List
+import yaml
 
 def importData(path: str) -> DataFrame:
     
@@ -67,7 +69,7 @@ def printScoresStats(list_of_scores: list):
     print(f"Max: {round(np.max(list_of_scores), 4)}")
     print(f"Min: {round(np.min(list_of_scores), 4)}\n")
 
-def createGraph(G: Graph, data: DataFrame, data_vec: ndarray) -> Graph:
+def createGraph(G: Graph, data: DataFrame, data_vec: ndarray) -> List[Graph, dict]:
     
     weights = randomWeights(data)
     
@@ -89,7 +91,7 @@ def createGraph(G: Graph, data: DataFrame, data_vec: ndarray) -> Graph:
     printScoresStats(list_of_scores)
     plotGraphStats(G)
     G = prepareGraph(G)
-    return G
+    return G, weights
 
 def prepareGraph(G: Graph) -> Graph:
     
@@ -194,7 +196,7 @@ if __name__ == "__main__":
     data_vec = DFToNP(data)
     
     G = nx.Graph()
-    G = createGraph(G, data, data_vec)
+    G, weights = createGraph(G, data, data_vec)
     graphPlot(G)
     
     partition = louvainPartitioning(G)
