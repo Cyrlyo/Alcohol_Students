@@ -143,10 +143,13 @@ if __name__ == "__main__":
     
     start_time = time.time()
     
+    optimize, epoch = parseArguments()
+    
+    
     data, data_vec = retrieveData("./Data/student_all.csv")
     
-    if True:
-        randomWeightOptimizer(data, data_vec, 1)
+    if optimize:
+        randomWeightOptimizer(data, data_vec, epoch)
     
     
     if False:

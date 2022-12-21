@@ -17,7 +17,7 @@ def parseArguments() -> bool:
     parser = argparse.ArgumentParser()
     
     parser.add_argument("-o", "--optimize", action="store_true", help="Enable optimizing weights", required=False)
-    parser.add_argument("-e", "--epoch", type=int, required=False, help="Number of epoch to optimize weights")
+    parser.add_argument("-e", "--epoch", type=int, required=False, help="Number of epoch to optimize weights", default=10, metavar="")
     
     args = parser.parse_args()
     
