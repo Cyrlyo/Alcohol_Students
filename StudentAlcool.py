@@ -14,6 +14,7 @@ from numpy import ndarray
 from networkx.classes.graph import Graph
 from tqdm import tqdm
 from collections import defaultdict
+import os
 
 def importData(path: str) -> DataFrame:
     
@@ -63,9 +64,9 @@ def printScoresStats(list_of_scores: list):
     print("\nDifference score statistics:")
     print(f"Len: {len(list_of_scores)}")
     print(f"Mean: {round(np.mean(list_of_scores), 4)}")
-    print(f"Median: {round(np.median(list_of_scores, 4))}")
-    print(f"Max: {round(np.max(list_of_scores, 4))}")
-    print(f"Min: {round(np.min(list_of_scores, 4))}\n")
+    print(f"Median: {round(np.median(list_of_scores), 4)}")
+    print(f"Max: {round(np.max(list_of_scores), 4)}")
+    print(f"Min: {round(np.min(list_of_scores), 4)}\n")
 
 def createGraph(G: Graph, data: DataFrame, data_vec: ndarray) -> Graph:
     
@@ -163,6 +164,28 @@ def refactoringPartition(partition: dict) -> list:
     
     return part_by_com
 
+def sortedPartition(partition: dict) -> dict:
+    
+    partition_sorted = dict(sorted(partition.items()))
+    return partition_sorted
+
+def addPartitionToData(data: DataFrame, partition: dict) -> DataFrame:
+    
+    partition_sorted = sortedPartition(partition)
+    partition_sorted = pd.DataFrame.from_dict(partition_sorted, orient="index")
+    data = pd.concat([data, partition_sorted], axis=1)
+    data.rename({0:"Community"}, axis=1, inplace=True)
+    
+    return data
+
+def saveDFToCSV(data: DataFrame):
+    
+    result = os.path.exists("./Data")
+    if not result:
+        os.mkdir("./Data")
+    
+    data.to_csv("./Data/student_all_community.csv", sep=",", index=False)
+
 if __name__ == "__main__":
     
     data = importData("./Data/student_all.csv")
@@ -180,3 +203,6 @@ if __name__ == "__main__":
     
     part_by_com = refactoringPartition(partition)
     modularity = louvain_community_quality(G, part_by_com)
+    
+    data = addPartitionToData(data, partition)
+    saveDFToCSV(data)
