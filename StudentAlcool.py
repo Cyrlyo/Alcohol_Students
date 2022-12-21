@@ -53,6 +53,7 @@ def printDataInfos(data: DataFrame):
 
 def DFToNP(data: DataFrame) -> ndarray:
     data_vec = data.to_numpy()
+    print(f"\nOriginal shape: {data.shape} | New shape: {data_vec.shape}")
     return data_vec
 
 def printScoresStats(list_of_scores: list):
@@ -84,12 +85,30 @@ def createGraph(G: Graph, data_vec: ndarray) -> Graph:
             else: 
                 pass
     printScoresStats(list_of_scores)
+    plotGraphStats(G)
     return G
+
+def plotGraphStats(G: Graph):
+    
+    print(f"\nNumber of nodes: {G.number_of_nodes()}")
+    print(f"Number of edges: {G.number_of_edges()}\n")
 
 def randomWeights(data: DataFrame) -> dict:
     
     weights = {key:random.uniform(0, 2) for key in list(data.columns)}
     return weights
+
+def graphPlot(G: Graph):
+    
+    plt.figure(figsize=(12, 8))
+    graph_options = {
+        'node_color': 'lightblue',
+        'node_size' : 10,
+        "edge_color": 'grey'
+    }
+
+    nx.draw(G, **graph_options, label=True)
+    plt.show()
 
 if __name__ == "__main__":
     
@@ -100,4 +119,5 @@ if __name__ == "__main__":
     data_vec = DFToNP(data)
     
     G = nx.Graph()
-    createGraph(G, data_vec)
+    G = createGraph(G, data_vec)
+    graphPlot(G)
