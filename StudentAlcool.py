@@ -70,9 +70,9 @@ def printScoresStats(list_of_scores: list):
     print(f"Max: {round(np.max(list_of_scores), 4)}")
     print(f"Min: {round(np.min(list_of_scores), 4)}\n")
 
-def createGraph(G: Graph, data: DataFrame, data_vec: ndarray) -> Tuple[Graph, dict]:
+def createGraph(G: Graph, data: DataFrame, data_vec: ndarray, reuse: bool = True) -> Tuple[Graph, dict]:
     
-    weights = randomWeights(data)
+    weights = randomWeights(data, reuse)
     
     columns_name = list(data.columns)
     list_of_scores = []
@@ -107,9 +107,10 @@ def plotGraphStats(G: Graph):
     print(f"Number of edges: {G.number_of_edges()}")
     print(f"Number of selfloops: {len(list(nx.selfloop_edges(G)))}\n")
 
-def randomWeights(data: DataFrame) -> dict:
+def randomWeights(data: DataFrame, reuse: bool) -> dict:
     
-    random.seed(42)
+    if reuse:
+        random.seed(42)
     weights = {key:random.uniform(0, 2) for key in list(data.columns)}
     weights["Name"] = 0
     return weights
@@ -210,7 +211,7 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray):
     results = {}
     for i in range(10):
         G = nx.Graph()
-        G, weights = createGraph(G, data, data_vec)
+        G, weights = createGraph(G, data, data_vec, reuse=False)
         
         partition = louvainPartitioning(G)
         part_by_com = refactoringPartition(partition)
@@ -219,7 +220,7 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray):
         results["model"] = i
         results["score"] = modularity
         results["weigths"] = weights
-        print(f"\nEpoch: {i}\nScore: {modularity}")
+        print(f"\nEpoch: {i}\nScore: {modularity}\n\n")
     
     return results
     
