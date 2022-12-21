@@ -230,8 +230,6 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
         score_list.append(modularity)
         print(f"\nScore: {modularity}\n\n")
         
-        delta_time = time.time() - start_time
-        print(f"Execution time: {time.strftime('%H:%M:%S', time.gmtime(delta_time))}")
         
         try:
             if max(score_list) > best_saved_score:
@@ -244,6 +242,8 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
                 saveScore(max(score_list))
                 print("\nWeights & score saved")
     
+        delta_time = time.time() - start_time
+        print(f"Execution time: {time.strftime('%H:%M:%S', time.gmtime(delta_time))}")
     return results, np.array(score_list)
 
 def saveScore(score: float):
@@ -259,6 +259,8 @@ def loadScore(path: str):
     return best_score
 
 if __name__ == "__main__":
+    
+    start_time = time.time()
     
     data = importData("./Data/student_all.csv")
     data = prepareData(data)
@@ -285,3 +287,6 @@ if __name__ == "__main__":
 
         data = addPartitionToData(data, partition)
         saveDFToCSV(data)
+        
+    delta_time = time.time() - start_time
+    print(f"Execution time: {time.strftime('%H:%M:%S', time.gmtime(delta_time))}")
