@@ -211,7 +211,7 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
     
     results = {}
     score_list = []
-    for i in range(3):
+    for i in range(10):
         start_time = time.time()
         print("----------------")
         print(f"\nEpoch: {i}")
@@ -244,6 +244,7 @@ if __name__ == "__main__":
     print("--------------------------------------------")
     print(f"\nBest model: model_{np.argmax(score_list)}")
     best_weights = results["model_%s"% np.argmax(score_list)]["weights"]
+    print(f"Best score: {max(score_list)}")
     
     if False:
         G = nx.Graph()
