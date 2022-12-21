@@ -10,3 +10,5 @@ venv
 /venv
 /Data
 ./Data
+./__pychache__
+__pycache__

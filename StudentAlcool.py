@@ -121,23 +121,32 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray, epoch: int=10) -> T
         print(f"Execution time: {time.strftime('%H:%M:%S', time.gmtime(delta_time))}")
     return results, np.array(score_list)
 
-
-if __name__ == "__main__":
+def retrieveData(path: str) -> Tuple[DataFrame, ndarray]:
     
-    start_time = time.time()
-    
-    data = importData("./Data/student_all.csv")
+    data = importData(path)
     data = prepareData(data)
     printDataInfos(data)
     
     data_vec = DFToNP(data)
     
+    return data, data_vec
+
+def randomWeightOptimizer(data: DataFrame, data_vec: ndarray, epoch: int = 10):
+    
+    results, score_list = findBestRandomWeight(data, data_vec, epoch)
+    print("--------------------------------------------")
+    print(f"\nBest model: model_{np.argmax(score_list)}")
+    print(f"Best score: {max(score_list)}")
+
+
+if __name__ == "__main__":
+    
+    start_time = time.time()
+    
+    data, data_vec = retrieveData("./Data/student_all.csv")
+    
     if True:
-        results, score_list = findBestRandomWeight(data, data_vec)
-        print("--------------------------------------------")
-        print(f"\nBest model: model_{np.argmax(score_list)}")
-        best_weights = results["model_%s"% np.argmax(score_list)]["weights"]
-        print(f"Best score: {max(score_list)}")
+        randomWeightOptimizer(data, data_vec, 1)
     
     
     if False:
