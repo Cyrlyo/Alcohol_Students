@@ -118,6 +118,15 @@ def louvainPartitioning(G: Graph) -> dict:
     print(f"\nNumber of partitions: {len(set(partition.values()))}")
     return partition
 
+def plotGraphWithPartition(G: Graph, partition: dict):
+    
+    plt.figure(figsize=(12, 8))
+    pos = nx.spring_layout(G)
+    cmap = cm.get_cmap('viridis', max(partition.values()) + 1)
+    nx.draw_networkx_nodes(G, pos, partition.keys(), node_size=40, cmap=cmap, node_color=list(partition.values()))
+    nx.draw_networkx_edges(G, pos, alpha=0.5)
+    plt.show()
+
 if __name__ == "__main__":
     
     data = importData("./Data/student_all.csv")
@@ -129,4 +138,6 @@ if __name__ == "__main__":
     G = nx.Graph()
     G = createGraph(G, data_vec)
     graphPlot(G)
+    
     partition = louvainPartitioning(G)
+    plotGraphWithPartition(G, partition)
