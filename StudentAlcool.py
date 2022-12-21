@@ -67,7 +67,6 @@ def printScoresStats(list_of_scores: list):
 
 def createGraph(G: Graph, data_vec: ndarray) -> Graph:
     
-    
     weights = randomWeights(data)
     
     columns_name = list(data.columns)
@@ -97,6 +96,7 @@ def plotGraphStats(G: Graph):
 
 def randomWeights(data: DataFrame) -> dict:
     
+    random.seed(42)
     weights = {key:random.uniform(0, 2) for key in list(data.columns)}
     return weights
 
