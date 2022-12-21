@@ -210,6 +210,8 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray):
     
     results = {}
     for i in range(10):
+        print("----------------")
+        print(f"\nEpoch: {i}")
         G = nx.Graph()
         G, weights = createGraph(G, data, data_vec, reuse=False)
         
