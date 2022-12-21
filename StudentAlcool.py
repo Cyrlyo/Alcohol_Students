@@ -211,6 +211,10 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
     
     results = {}
     score_list = []
+    try:
+        best_saved_score = float(loadScore("./weights/best_score.txt"))
+    except: pass
+    
     for i in range(1):
         start_time = time.time()
         print("----------------")
@@ -228,6 +232,12 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
         
         delta_time = time.time() - start_time
         print(f"Execution time: {time.strftime('%H:%M:%S', time.gmtime(delta_time))}")
+        
+        try:
+            if max(score_list) > best_saved_score:
+                saveWeights(weights)
+                saveScore(max(score_list))
+        except: pass
     
     return results, np.array(score_list)
 
@@ -250,14 +260,12 @@ if __name__ == "__main__":
     printDataInfos(data)
     
     data_vec = DFToNP(data)
-    if True:
-        results, score_list = findBestRandomWeight(data, data_vec)
-        print("--------------------------------------------")
-        print(f"\nBest model: model_{np.argmax(score_list)}")
-        best_weights = results["model_%s"% np.argmax(score_list)]["weights"]
-        print(f"Best score: {max(score_list)}")
-    saveScore(max(score_list))
-    best_saved_score = float(loadScore("./weights/best_score.txt"))
+    results, score_list = findBestRandomWeight(data, data_vec)
+    print("--------------------------------------------")
+    print(f"\nBest model: model_{np.argmax(score_list)}")
+    best_weights = results["model_%s"% np.argmax(score_list)]["weights"]
+    print(f"Best score: {max(score_list)}")
+    
 
     
     if False:
@@ -274,4 +282,4 @@ if __name__ == "__main__":
         data = addPartitionToData(data, partition)
         saveDFToCSV(data)
 
-    # saveWeights(best_weights, "./weights")
+        saveWeights(best_weights, "./weights")
