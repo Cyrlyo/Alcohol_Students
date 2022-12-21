@@ -196,7 +196,7 @@ def checkExistingFolder(path: str):
 def saveWeights(weights: dict, path: str):
     
     checkExistingFolder(path)
-    full_path = os.path.join(path, "weights")
+    full_path = os.path.join(path, "weights.yaml")
     
     with open(full_path, "w") as file:
         yaml.dump(weights, file, default_flow_style=False)
@@ -237,6 +237,7 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
             if max(score_list) > best_saved_score:
                 saveWeights(weights)
                 saveScore(max(score_list))
+                print("\nWeights & score saved")
         except: pass
     
     return results, np.array(score_list)
@@ -260,15 +261,15 @@ if __name__ == "__main__":
     printDataInfos(data)
     
     data_vec = DFToNP(data)
-    results, score_list = findBestRandomWeight(data, data_vec)
-    print("--------------------------------------------")
-    print(f"\nBest model: model_{np.argmax(score_list)}")
-    best_weights = results["model_%s"% np.argmax(score_list)]["weights"]
-    print(f"Best score: {max(score_list)}")
+    # results, score_list = findBestRandomWeight(data, data_vec)
+    # print("--------------------------------------------")
+    # print(f"\nBest model: model_{np.argmax(score_list)}")
+    # best_weights = results["model_%s"% np.argmax(score_list)]["weights"]
+    # print(f"Best score: {max(score_list)}")
     
-
+    weights = loadWeights("./weights/weights.yaml")
     
-    if False:
+    if True:
         G = nx.Graph()
         G, weights = createGraph(G, data, data_vec)
         graphPlot(G)
@@ -281,5 +282,5 @@ if __name__ == "__main__":
 
         data = addPartitionToData(data, partition)
         saveDFToCSV(data)
-
-        saveWeights(best_weights, "./weights")
+        saveScore(modularity)
+        # saveWeights(best_weights, "./weights")
