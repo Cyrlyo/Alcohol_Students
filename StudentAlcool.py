@@ -211,14 +211,16 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
     
     results = {}
     score_list = []
-    try:
-        best_saved_score = float(loadScore("./weights/best_score.txt"))
-        print(f"Best saved score: {best_saved_score}")
-    except:
-        print("Saved score not found, will be created")
     
     for i in range(1):
         start_time = time.time()
+        
+        try:
+            best_saved_score = float(loadScore("./weights/best_score.txt"))
+            print(f"Best saved score: {best_saved_score}")
+        except:
+            print("Saved score not found, will be created")
+        
         print("----------------")
         print(f"\nEpoch: {i}")
         G = nx.Graph()
