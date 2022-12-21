@@ -112,6 +112,12 @@ def graphPlot(G: Graph):
     nx.draw(G, **graph_options, label=True)
     plt.show()
 
+def louvainPartitioning(G: Graph) -> dict:
+    
+    partition = community_louvain.best_partition(G)
+    print(f"\nNumber of partitions: {len(set(partition.values()))}")
+    return partition
+
 if __name__ == "__main__":
     
     data = importData("./Data/student_all.csv")
@@ -123,3 +129,4 @@ if __name__ == "__main__":
     G = nx.Graph()
     G = createGraph(G, data_vec)
     graphPlot(G)
+    partition = louvainPartitioning(G)
