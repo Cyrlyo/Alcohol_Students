@@ -39,7 +39,7 @@ def prepareData(data: DataFrame) -> DataFrame:
 def createName(data: DataFrame) -> DataFrame:
     
     indexes = [i for i in range(data.shape[0])]
-    indexes = pd.DataFrame({"Names":indexes})
+    indexes = pd.DataFrame({"Name":indexes})
     indexes
     data = pd.concat([data, indexes], axis=1)
     
@@ -63,9 +63,9 @@ def printScoresStats(list_of_scores: list):
     print("\nDifference score statistics:")
     print(f"Len: {len(list_of_scores)}")
     print(f"Mean: {round(np.mean(list_of_scores), 4)}")
-    print(f"Median: {np.median(list_of_scores)}")
-    print(f"Max: {np.max(list_of_scores)}")
-    print(f"Min: {np.min(list_of_scores)}\n")
+    print(f"Median: {round(np.median(list_of_scores, 4))}")
+    print(f"Max: {round(np.max(list_of_scores, 4))}")
+    print(f"Min: {round(np.min(list_of_scores, 4))}\n")
 
 def createGraph(G: Graph, data: DataFrame, data_vec: ndarray) -> Graph:
     
@@ -108,6 +108,7 @@ def randomWeights(data: DataFrame) -> dict:
     
     random.seed(42)
     weights = {key:random.uniform(0, 2) for key in list(data.columns)}
+    weights["Name"] = 0
     return weights
 
 def graphPlot(G: Graph):
@@ -149,6 +150,7 @@ def louvain_community_quality(G, communities):
     - modularity: float, the modularity score
     """
     modularity = nx.algorithms.community.modularity(G, communities)
+    print(f"Modularity for this graph: {round(modularity, 4)}\n")
     
     return modularity
 
@@ -175,3 +177,6 @@ if __name__ == "__main__":
     
     partition = louvainPartitioning(G)
     plotGraphWithPartition(G, partition)
+    
+    part_by_com = refactoringPartition(partition)
+    modularity = louvain_community_quality(G, part_by_com)
