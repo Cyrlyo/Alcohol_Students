@@ -211,11 +211,8 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray):
     for i in range(10):
         G = nx.Graph()
         G, weights = createGraph(G, data, data_vec)
-        graphPlot(G)
         
         partition = louvainPartitioning(G)
-        plotGraphWithPartition(G, partition)
-        
         part_by_com = refactoringPartition(partition)
         modularity = louvain_community_quality(G, part_by_com)
         
