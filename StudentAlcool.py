@@ -205,9 +205,27 @@ def loadWeights(path: str) -> dict:
         weights = yaml.load(file, Loader=SafeLoader)
     return weights
 
-def findBestRandomWeight():
+def findBestRandomWeight(data: DataFrame, data_vec: ndarray):
     
-    pass
+    results = {}
+    for i in range(10):
+        G = nx.Graph()
+        G, weights = createGraph(G, data, data_vec)
+        graphPlot(G)
+        
+        partition = louvainPartitioning(G)
+        plotGraphWithPartition(G, partition)
+        
+        part_by_com = refactoringPartition(partition)
+        modularity = louvain_community_quality(G, part_by_com)
+        
+        results["model"] = i
+        results["score"] = modularity
+        results["weigths"] = weights
+        print(f"\nEpoch: {i}\nScore: {modularity}")
+    
+    return results
+    
 
 if __name__ == "__main__":
     
@@ -217,17 +235,21 @@ if __name__ == "__main__":
     
     data_vec = DFToNP(data)
     
-    G = nx.Graph()
-    G, weights = createGraph(G, data, data_vec)
-    graphPlot(G)
+    results = findBestRandomWeight(data, data_vec)
+    print(results)
     
-    partition = louvainPartitioning(G)
-    plotGraphWithPartition(G, partition)
-    
-    part_by_com = refactoringPartition(partition)
-    modularity = louvain_community_quality(G, part_by_com)
-    
-    data = addPartitionToData(data, partition)
-    saveDFToCSV(data)
-    
-    saveWeights(weights, "./weigths")
+    if False:
+        G = nx.Graph()
+        G, weights = createGraph(G, data, data_vec)
+        graphPlot(G)
+
+        partition = louvainPartitioning(G)
+        plotGraphWithPartition(G, partition)
+
+        part_by_com = refactoringPartition(partition)
+        modularity = louvain_community_quality(G, part_by_com)
+
+        data = addPartitionToData(data, partition)
+        saveDFToCSV(data)
+
+        saveWeights(weights, "./weigths")
