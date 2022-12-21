@@ -211,7 +211,7 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
     
     results = {}
     score_list = []
-    for i in range(10):
+    for i in range(1):
         start_time = time.time()
         print("----------------")
         print(f"\nEpoch: {i}")
@@ -230,7 +230,18 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
         print(f"Execution time: {time.strftime('%H:%M:%S', time.gmtime(delta_time))}")
     
     return results, np.array(score_list)
+
+def saveScore(score: float):
     
+    checkExistingFolder("./weights")
+    with open("./weights/best_score.txt", "w") as file:
+        file.write(str(score))
+
+def loadScore(path: str):
+    
+    with open("./weights/best_score.txt", "r") as file:
+        best_score = file.read()
+    return best_score
 
 if __name__ == "__main__":
     
@@ -260,4 +271,4 @@ if __name__ == "__main__":
         data = addPartitionToData(data, partition)
         saveDFToCSV(data)
 
-    saveWeights(best_weights, "./weigths")
+    saveWeights(best_weights, "./weights")
