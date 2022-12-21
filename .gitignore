@@ -6,3 +6,5 @@ Cours.pdf
 *.R
 *.xls
 *.sxlsx
+venv
+/venv
