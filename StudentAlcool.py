@@ -67,6 +67,7 @@ def printScoresStats(list_of_scores: list):
 
 def createGraph(G: Graph, data_vec: ndarray) -> Graph:
     
+    
     weights = randomWeights(data)
     
     columns_name = list(data.columns)
@@ -79,7 +80,8 @@ def createGraph(G: Graph, data_vec: ndarray) -> Graph:
                 if data_vec[vec - 1, col-1] != data_vec[vecs, col-1]:
                     score += weights[columns_name[col]]
                     list_of_scores.append(score)
-
+# On ne peut pas garder 10.5 il faut trouver un moyen d'avoir une metric qui se calcule. Ou savegarder pour chaque paire
+# de noeud le score et en suite y ajouter ou non l'arête
             if score < 10.5:
                 G.add_edge(data_vec[vec, -1], data_vec[vecs, -1])
             else: 
