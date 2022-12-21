@@ -18,6 +18,7 @@ import os
 from typing import List,  Tuple
 import yaml
 from yaml.loader import SafeLoader
+import time
 
 def importData(path: str) -> DataFrame:
     
@@ -206,10 +207,12 @@ def loadWeights(path: str) -> dict:
         weights = yaml.load(file, Loader=SafeLoader)
     return weights
 
-def findBestRandomWeight(data: DataFrame, data_vec: ndarray):
+def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndarray]:
     
     results = {}
-    for i in range(10):
+    score_list = []
+    for i in range(3):
+        start_time = time.time()
         print("----------------")
         print(f"\nEpoch: {i}")
         G = nx.Graph()
@@ -219,12 +222,14 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray):
         part_by_com = refactoringPartition(partition)
         modularity = louvain_community_quality(G, part_by_com)
         
-        results["model"] = i
-        results["score"] = modularity
-        results["weigths"] = weights
+        results[f"model_{i}"] = {"weights": weights}
+        score_list.append(modularity)
         print(f"\nScore: {modularity}\n\n")
+        
+        delta_time = time.time() - start_time
+        print(f"Execution time: {time.strftime('%H:%M:%S', time.gmtime(delta_time))}")
     
-    return results
+    return results, np.array(score_list)
     
 
 if __name__ == "__main__":
@@ -235,8 +240,11 @@ if __name__ == "__main__":
     
     data_vec = DFToNP(data)
     
-    results = findBestRandomWeight(data, data_vec)
-    print(results)
+    results, score_list = findBestRandomWeight(data, data_vec)
+    print(len(results))
+    print(score_list)
+    print(np.argmax(score_list))
+    print(results["model_%s"% np.argmax(score_list)]["weights"])
     
     if False:
         G = nx.Graph()
