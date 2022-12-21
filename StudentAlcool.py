@@ -214,6 +214,7 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
     
     for i in range(1):
         start_time = time.time()
+        print("----------------")
         
         try:
             best_saved_score = float(loadScore("./weights/best_score.txt"))
@@ -221,7 +222,6 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
         except:
             print("Saved score not found, will be created")
         
-        print("----------------")
         print(f"\nEpoch: {i}")
         G = nx.Graph()
         G, weights = createGraph(G, data, data_vec, reuse=False)
