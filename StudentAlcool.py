@@ -19,6 +19,7 @@ from typing import List,  Tuple
 import yaml
 from yaml.loader import SafeLoader
 import time
+import argparse
 
 def importData(path: str) -> DataFrame:
     
@@ -275,7 +276,7 @@ if __name__ == "__main__":
     
     data_vec = DFToNP(data)
     
-    if False:
+    if True:
         results, score_list = findBestRandomWeight(data, data_vec)
         print("--------------------------------------------")
         print(f"\nBest model: model_{np.argmax(score_list)}")
@@ -283,7 +284,7 @@ if __name__ == "__main__":
         print(f"Best score: {max(score_list)}")
     
     
-    if True:
+    if False:
         G = nx.Graph()
         G, weights = createGraph(G, data, data_vec, random_weights=False)
         graphPlot(G)
