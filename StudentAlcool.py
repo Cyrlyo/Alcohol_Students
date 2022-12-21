@@ -17,6 +17,7 @@ from collections import defaultdict
 import os
 from typing import List,  Tuple
 import yaml
+from yaml.loader import SafeLoader
 
 def importData(path: str) -> DataFrame:
     
@@ -197,6 +198,11 @@ def saveWeights(weights: dict, path: str):
     
     with open(full_path, "w") as file:
         yaml.dump(weights, file, default_flow_style=False)
+
+def loadweights(path: str) -> dict:
+    
+    with open(path, "r") as file:
+        weights = yaml.load(file, Loader=SafeLoader)
 
 if __name__ == "__main__":
     
