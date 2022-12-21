@@ -54,7 +54,7 @@ def printDataInfos(data: DataFrame):
 
 def DFToNP(data: DataFrame) -> ndarray:
     data_vec = data.to_numpy()
-    print(f"\nOriginal shape: {data.shape} | New shape: {data_vec.shape}")
+    print(f"\nOriginal shape: {data.shape} | New shape: {data_vec.shape}\n")
     return data_vec
 
 def printScoresStats(list_of_scores: list):
@@ -79,22 +79,29 @@ def createGraph(G: Graph, data: DataFrame, data_vec: ndarray) -> Graph:
             for col in range(data_vec.shape[1]):
                 if data_vec[vec - 1, col-1] != data_vec[vecs, col-1]:
                     score += weights[columns_name[col]]
-                    # print(score)
                     list_of_scores.append(score)
-# On ne peut pas garder 10.5 il faut trouver un moyen d'avoir une metric qui se calcule. Ou savegarder pour chaque paire
-# de noeud le score et en suite y ajouter ou non l'arête
+
             if score < sum(list(weights.values()))//3:
                 G.add_edge(data_vec[vec, -1], data_vec[vecs, -1])
             else: 
                 pass
     printScoresStats(list_of_scores)
     plotGraphStats(G)
+    G = prepareGraph(G)
     return G
+
+def prepareGraph(G: Graph) -> Graph:
+    
+    print("Deleting selfloops\n")
+    G.remove_edges_from(nx.selfloop_edges(G))
+    return G
+
 
 def plotGraphStats(G: Graph):
     
     print(f"\nNumber of nodes: {G.number_of_nodes()}")
-    print(f"Number of edges: {G.number_of_edges()}\n")
+    print(f"Number of edges: {G.number_of_edges()}")
+    print(f"Number of selfloops: {len(list(nx.selfloop_edges(G)))}\n")
 
 def randomWeights(data: DataFrame) -> dict:
     
@@ -128,6 +135,21 @@ def plotGraphWithPartition(G: Graph, partition: dict):
     nx.draw_networkx_nodes(G, pos, partition.keys(), node_size=40, cmap=cmap, node_color=list(partition.values()))
     nx.draw_networkx_edges(G, pos, alpha=0.5)
     plt.show()
+
+def louvain_community_quality(G, communities):
+    """
+    Calculate the quality of a Louvain community detection using the modularity score.
+    
+    Parameters:
+    - G: NetworkX graph
+    - communities: list of sets, representing the detected communities
+    
+    Returns:
+    - modularity: float, the modularity score
+    """
+    modularity = nx.algorithms.community.modularity(G, communities)
+    
+    return modularity
 
 if __name__ == "__main__":
     
