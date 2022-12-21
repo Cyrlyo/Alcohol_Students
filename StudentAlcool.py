@@ -15,7 +15,7 @@ from networkx.classes.graph import Graph
 from tqdm import tqdm
 from collections import defaultdict
 import os
-from typing import List
+from typing import List,  Tuple
 import yaml
 
 def importData(path: str) -> DataFrame:
@@ -69,7 +69,7 @@ def printScoresStats(list_of_scores: list):
     print(f"Max: {round(np.max(list_of_scores), 4)}")
     print(f"Min: {round(np.min(list_of_scores), 4)}\n")
 
-def createGraph(G: Graph, data: DataFrame, data_vec: ndarray) -> List[Graph, dict]:
+def createGraph(G: Graph, data: DataFrame, data_vec: ndarray) -> Tuple[Graph, dict]:
     
     weights = randomWeights(data)
     
@@ -181,11 +181,22 @@ def addPartitionToData(data: DataFrame, partition: dict) -> DataFrame:
 
 def saveDFToCSV(data: DataFrame):
     
-    result = os.path.exists("./Data")
-    if not result:
-        os.mkdir("./Data")
-    
+    checkExistingFolder("./Data")    
     data.to_csv("./Data/student_all_community.csv", sep=",", index=False)
+
+def checkExistingFolder(path: str):
+    
+    result = os.path.exists(path)
+    if not result:
+        os.mkdir(path)
+    
+def saveWeights(weights: dict, path: str):
+    
+    checkExistingFolder(path)
+    full_path = os.path.join(path, "weights")
+    
+    with open(full_path, "w") as file:
+        yaml.dump(weights, file, default_flow_style=False)
 
 if __name__ == "__main__":
     
@@ -207,3 +218,5 @@ if __name__ == "__main__":
     
     data = addPartitionToData(data, partition)
     saveDFToCSV(data)
+    
+    saveWeights(weights, "./weigths")
