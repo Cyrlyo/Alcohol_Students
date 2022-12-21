@@ -15,10 +15,6 @@ from typing import List,  Tuple
 import time
 from utilities import *
 
-def DFToNP(data: DataFrame) -> ndarray:
-    data_vec = data.to_numpy()
-    print(f"\nOriginal shape: {data.shape} | New shape: {data_vec.shape}\n")
-    return data_vec
 
 def createGraph(G: Graph, data: DataFrame, data_vec: ndarray, reuse: bool = True, random_weights: bool = True) -> Tuple[Graph, dict]:
     
@@ -53,12 +49,6 @@ def prepareGraph(G: Graph) -> Graph:
     G.remove_edges_from(nx.selfloop_edges(G))
     return G
 
-def plotGraphStats(G: Graph):
-    
-    print(f"\nNumber of nodes: {G.number_of_nodes()}")
-    print(f"Number of edges: {G.number_of_edges()}")
-    print(f"Number of selfloops: {len(list(nx.selfloop_edges(G)))}\n")
-
 def randomWeights(data: DataFrame, reuse: bool) -> dict:
     
     if reuse:
@@ -67,14 +57,13 @@ def randomWeights(data: DataFrame, reuse: bool) -> dict:
     weights["Name"] = 0
     return weights
 
-
 def louvainPartitioning(G: Graph) -> dict:
     
     partition = community_louvain.best_partition(G)
     print(f"\nNumber of partitions: {len(set(partition.values()))}")
     return partition
 
-def louvain_community_quality(G, communities):
+def louvain_community_quality(G: Graph, communities: list[set]) -> float:
     """
     Calculate the quality of a Louvain community detection using the modularity score.
     
@@ -90,12 +79,12 @@ def louvain_community_quality(G, communities):
     
     return modularity
 
-def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndarray]:
+def findBestRandomWeight(data: DataFrame, data_vec: ndarray, epoch: int=10) -> Tuple[dict, ndarray]:
     
     results = {}
     score_list = []
     
-    for i in range(1):
+    for i in range(epoch):
         start_time = time.time()
         print("----------------")
         
@@ -117,7 +106,6 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
         score_list.append(modularity)
         print(f"\nScore: {modularity}\n\n")
         
-        
         try:
             if max(score_list) > best_saved_score:
                 saveWeights(weights, "./weights")
@@ -132,7 +120,6 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray) -> Tuple[dict, ndar
         delta_time = time.time() - start_time
         print(f"Execution time: {time.strftime('%H:%M:%S', time.gmtime(delta_time))}")
     return results, np.array(score_list)
-
 
 
 if __name__ == "__main__":

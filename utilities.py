@@ -9,6 +9,7 @@ import networkx as nx
 from networkx.classes.graph import Graph
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+from numpy import ndarray
 
 def saveScore(score: float):
     
@@ -137,3 +138,14 @@ def graphPlot(G: Graph):
 
     nx.draw(G, **graph_options, label=True)
     plt.show()
+    
+def plotGraphStats(G: Graph):
+    
+    print(f"\nNumber of nodes: {G.number_of_nodes()}")
+    print(f"Number of edges: {G.number_of_edges()}")
+    print(f"Number of selfloops: {len(list(nx.selfloop_edges(G)))}\n")
+
+def DFToNP(data: DataFrame) -> ndarray:
+    data_vec = data.to_numpy()
+    print(f"\nOriginal shape: {data.shape} | New shape: {data_vec.shape}\n")
+    return data_vec
