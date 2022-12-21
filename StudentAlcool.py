@@ -71,9 +71,12 @@ def printScoresStats(list_of_scores: list):
     print(f"Max: {round(np.max(list_of_scores), 4)}")
     print(f"Min: {round(np.min(list_of_scores), 4)}\n")
 
-def createGraph(G: Graph, data: DataFrame, data_vec: ndarray, reuse: bool = True) -> Tuple[Graph, dict]:
+def createGraph(G: Graph, data: DataFrame, data_vec: ndarray, reuse: bool = True, random_weights: bool = True) -> Tuple[Graph, dict]:
     
-    weights = randomWeights(data, reuse)
+    if random_weights:
+        weights = randomWeights(data, reuse)
+    else:
+        weights = loadWeights("./weights/weights.yaml")
     
     columns_name = list(data.columns)
     list_of_scores = []
@@ -271,16 +274,18 @@ if __name__ == "__main__":
     printDataInfos(data)
     
     data_vec = DFToNP(data)
-    results, score_list = findBestRandomWeight(data, data_vec)
-    print("--------------------------------------------")
-    print(f"\nBest model: model_{np.argmax(score_list)}")
-    best_weights = results["model_%s"% np.argmax(score_list)]["weights"]
-    print(f"Best score: {max(score_list)}")
-    
     
     if False:
+        results, score_list = findBestRandomWeight(data, data_vec)
+        print("--------------------------------------------")
+        print(f"\nBest model: model_{np.argmax(score_list)}")
+        best_weights = results["model_%s"% np.argmax(score_list)]["weights"]
+        print(f"Best score: {max(score_list)}")
+    
+    
+    if True:
         G = nx.Graph()
-        G, weights = createGraph(G, data, data_vec)
+        G, weights = createGraph(G, data, data_vec, random_weights=False)
         graphPlot(G)
 
         partition = louvainPartitioning(G)
