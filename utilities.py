@@ -10,6 +10,19 @@ from networkx.classes.graph import Graph
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from numpy import ndarray
+import argparse
+
+def parseArguments() -> bool:
+    
+    parser = argparse.ArgumentParser()
+    
+    parser.add_argument("-o", "--optimize", action="store_true", help="Enable optimizing weights", required=False)
+    parser.add_argument("-e", "--epoch", type=int, required=False, help="Number of epoch to optimize weights")
+    
+    args = parser.parse_args()
+    
+    return args.optimize, parser.epoch
+    
 
 def saveScore(score: float):
     
