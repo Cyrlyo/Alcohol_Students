@@ -222,7 +222,7 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray):
         results["model"] = i
         results["score"] = modularity
         results["weigths"] = weights
-        print(f"\nEpoch: {i}\nScore: {modularity}\n\n")
+        print(f"\nScore: {modularity}\n\n")
     
     return results
     
