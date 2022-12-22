@@ -7,7 +7,7 @@
 
 ## Script launch options:
 
-- -h: display all launch options
+- -h, --help: display all launch options
 - -o, --optimize: run the script to optimise weights only
 - -e, --epoch: choose the number of iteration when optimizing weights (by default equals to 10)
 - -g, --graph: create a graph using the last saved weights
