@@ -17,3 +17,10 @@ Example:
 - `python studentAlcohol.py -o -e 100`: we will look for the best weights by iterating 100 times
 - `python studentAlcohol.py -h`: show help
 - `python studentAlcohol.py -g`: create a graph using the last saved weights
+
+## Miscellaneous informations
+
+Scripting: python 3.9
+Hardware: 
+- For scripting: CPU i7 6500U 2.5GHz, 16 Go RAM *20 secs / iterations when optimizing weights*
+- Optimizing: Ryzen 7 5800x, 32 Go RAM *10 secs / iterations when optimizing weights*
