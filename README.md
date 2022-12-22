@@ -22,5 +22,5 @@ Example:
 
 Scripting: python 3.9 <br>
 Hardware: 
-- For scripting: CPU i7 6500U 2.5GHz, 16 Go RAM *20 secs / iterations when optimizing weights*
-- Optimizing: Ryzen 7 5800x, 32 Go RAM *10 secs / iterations when optimizing weights*
+- For scripting: CPU i7 6500U 2.5GHz, 16 Go RAM *(20 secs / iterations when optimizing weights)*
+- Optimizing: Ryzen 7 5800x, 32 Go RAM *(10 secs / iterations when optimizing weights)*
