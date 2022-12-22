@@ -12,7 +12,7 @@
 - -e, --epoch: choose the number of iteration when optimizing weights (by default equals to 10)
 - -g, --graph: create a graph using the last saved weights
 
-Exemple:
+Example:
 
 - `python studentAlcohol.py -o -e 100`: we will look for the best weights by iterating 100 times
 - `python studentAlcohol.py -h`: show help
