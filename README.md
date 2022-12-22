@@ -1,6 +1,6 @@
 ## To run the script
 
-- Create a python virtual environment 
+- Create a 3.9 python virtual environment 
 - Install packages with `pip install -r requirements.txt`
 - Open a prompt and run your virtual environment
 - Type `python studentAlcohol.py`
