@@ -5,7 +5,7 @@
 - Open a prompt and run your virtual environment
 - Type `python studentAlcohol.py`
 
-## Script launch options:
+## Script launch options
 
 - -h, --help: display all launch options
 - -o, --optimize: run the script to optimise weights only
