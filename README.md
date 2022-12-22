@@ -22,7 +22,11 @@ Example:
 
 Scripting: python 3.9 <br>
 Hardware: 
-- For scripting: CPU i7 6500U 2.5GHz, 16 Go RAM *(20 secs / iterations when optimizing weights)*
-- Optimizing: Ryzen 7 5800x, 32 Go RAM *(10 secs / iterations when optimizing weights)* <br>
+For scripting: CPU i7 6500U 2.5GHz, 16 Go RAM
+
+Optimizing: 
+- CPU i7 6500U 2.5GHz, 16 Go RAM *(20 secs / iteration when optimizing weights)* 
+- CPU i7 7700 3.6GHz, 8 Go RAM, GPU GTX 1050 *(15 sec / iteration when optimizing weights)*
+- CPU Ryzen 7 5800x 3.8GHz, 32 Go RAM, GPU RTX 3070 Ti *(10 secs / iteration when optimizing weights)* 
 
 Software: windows 10
