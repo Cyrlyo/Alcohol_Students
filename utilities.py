@@ -90,8 +90,9 @@ def prepareData(data: DataFrame) -> DataFrame:
     except: pass
     
     data['alc'] = data['Dalc'] + data['Walc']
-    data["guardian"][data["guardian"] == "father"] = "parent"
-    data["guardian"][data["guardian"] == "mother"] = "parent"
+    # data["guardian"][data["guardian"] == "father"] = "parent"
+    # data["guardian"][data["guardian"] == "mother"] = "parent"
+    data["guardian"] = data["guardian"].replace({"mother": "parent", "father": "parent"})
     data['absences'][(data["absences"] > 0) & (data["absences"] < 11)] = 1
 
     data = createName(data)

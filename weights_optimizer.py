@@ -11,6 +11,9 @@ if __name__ == "__main__" :
     data = importData("./Data/student_all.csv")
     data = prepareData(data)
     print(data["guardian"].unique())
+    print(data["absences"].unique())
+    print("\n\n")
+    print(data["guardian"].tail(3))
     
     num_boost_round = 100
     nfold = 5
