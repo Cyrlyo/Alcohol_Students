@@ -26,7 +26,7 @@ if __name__ == "__main__" :
     num_boost_round = 100
     nfold = 5
     
-    data_dmatrix = xgb.DMatrix(data=data[data.columns[:-2]], label=data["alc"], enable_categorical=True)
+    data_dmatrix = xgb.DMatrix(data=data[data.columns[:-2]].drop(columns=["Dalc", "Walc"]), label=data["alc"], enable_categorical=True)
     xgb_cv = xgb.cv(dtrain=data_dmatrix, params={'objective':'reg:squarederror'}, nfold=nfold, metrics = 'rmse', seed=42, num_boost_round=num_boost_round)
 
     # Train the model
@@ -43,6 +43,8 @@ if __name__ == "__main__" :
     # plt.show()
 
     print(clf.get_score(importance_type='gain'))
+    print(len(clf.get_score(importance_type='gain')))
+    print(data.shape[1])
 
 
     # Plot feature importance
