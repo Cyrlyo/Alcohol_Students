@@ -1,10 +1,21 @@
 import pandas as pd
+from pandas import DataFrame
 import numpy as np
 import matplotlib.pyplot as plt
 import xgboost as xgb
 from utilities import importData, prepareData
 
 
+def changeCat(data: DataFrame) -> DataFrame:
+    
+    unique_values = dict()
+    print(f"colonne\tnb_unique_values\tunique_values_sorted")
+    for col, col_type in data.dtypes.iteritems():
+        if col_type == 'object' and col != 'G1' and col != 'G2' and col != 'G3' and col != 'absences':
+            data[col] = data[col].astype('category')
+            unique_values[col] = np.sort(np.unique(data[col]))
+            print(f"{col}:\t{len(unique_values[col])}\t{unique_values[col]}\n")
+    return data
 
 if __name__ == "__main__" :
     
@@ -13,6 +24,8 @@ if __name__ == "__main__" :
     
     print(data.columns[:-1])
     print(data.dtypes)
+    
+    data = changeCat(data)
     
     num_boost_round = 100
     nfold = 5

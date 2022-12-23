@@ -91,7 +91,7 @@ def prepareData(data: DataFrame) -> DataFrame:
     
     data['alc'] = data['Dalc'] + data['Walc']
     data["guardian"] = data["guardian"].replace({"mother": "parent", "father": "parent"})
-    data["absences"] = data["absences"].apply(discretise)    
+    # data["absences"] = data["absences"].apply(discretise)
 
     data = createName(data)
     return data
