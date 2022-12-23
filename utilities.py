@@ -93,10 +93,20 @@ def prepareData(data: DataFrame) -> DataFrame:
     # data["guardian"][data["guardian"] == "father"] = "parent"
     # data["guardian"][data["guardian"] == "mother"] = "parent"
     data["guardian"] = data["guardian"].replace({"mother": "parent", "father": "parent"})
-    data['absences'][(data["absences"] > 0) & (data["absences"] < 11)] = 1
+    data["absences"] = data["absences"].apply(discretise)
+    # data['absences'][(data["absences"] > 0) & (data["absences"] < 11)] = 1
+    
 
     data = createName(data)
     return data
+
+def discretise(x):
+  if x > 11:
+    return x
+  elif x > 0:
+    return 1
+  else:
+    return 0
 
 def printScoresStats(list_of_scores: list):
     
