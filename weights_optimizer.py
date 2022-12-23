@@ -51,9 +51,9 @@ if __name__ == "__main__" :
     print(len(feature_importance))
     print(data.shape[1])
 
-    test = {key:sigmoid(value) for key, value in feature_importance.items()}
-    print(test)
-    print(max(test.values()))
+    weights_xgboost = {key:sigmoid(value) for key, value in feature_importance.items()}
+    print(weights_xgboost)
+    print(max(weights_xgboost.values()))
     # Plot feature importance
     xgb.plot_importance(clf)
     # plt.figure(figsize = (16, 12))
