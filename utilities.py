@@ -96,7 +96,7 @@ def prepareData(data: DataFrame) -> DataFrame:
     data = createName(data)
     return data
 
-def discretise(x):
+def discretise(x: int) -> int:
   if x > 11:
     return x
   elif x > 0:
