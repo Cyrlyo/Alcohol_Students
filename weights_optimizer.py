@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-# import xgboost as xgb
+import xgboost as xgb
 from utilities import importData, prepareData
 
 
@@ -11,7 +11,8 @@ if __name__ == "__main__" :
     data = importData("./Data/student_all.csv")
     data = prepareData(data)
     
-    print(list(data.columns))
+    print(data.columns[:-1])
+    print(data.dtypes)
     
     num_boost_round = 100
     nfold = 5
