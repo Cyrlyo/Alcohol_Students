@@ -150,6 +150,8 @@ if __name__ == "__main__":
     
     if optimize:
         randomWeightOptimizer(data, data_vec, epoch)
+# Change weights.yaml name by random_weights.yaml
+# same for best_score.txt
     
     
     if graph:
