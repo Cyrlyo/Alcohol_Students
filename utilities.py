@@ -90,11 +90,9 @@ def prepareData(data: DataFrame) -> DataFrame:
     except: pass
     
     data['alc'] = data['Dalc'] + data['Walc']
-    # data["guardian"][data["guardian"] == "father"] = "parent"
-    data[data.loc[:, ("guardian")] == "father"] = "parent"
-    # data["guardian"][data["guardian"] == "mother"] = "parent"
-    data[data.loc[:, ("guardian")] == "mother"] = "parent"
-    # data['absences'][(data["absences"] > 0) & (data["absences"] < 11)] = 1
+    data["guardian"][data["guardian"] == "father"] = "parent"
+    data["guardian"][data["guardian"] == "mother"] = "parent"
+    data['absences'][(data["absences"] > 0) & (data["absences"] < 11)] = 1
 
     data = createName(data)
     return data
