@@ -17,6 +17,10 @@ def changeDataCategory(data: DataFrame) -> DataFrame:
             # print(f"{col}:\t{len(unique_values[col])}\t{unique_values[col]}\n")
     return data
 
+def sigmoid(x):
+    #TODO: rename this function
+  return (1 / (1 + np.exp(-x)))*2
+
 if __name__ == "__main__" :
     
     data = importData("./Data/student_all.csv")
@@ -42,11 +46,14 @@ if __name__ == "__main__" :
     # plt.ylabel('Mean RMSE')
     # plt.show()
 
-    print(clf.get_score(importance_type='gain'))
-    print(len(clf.get_score(importance_type='gain')))
+    feature_importance = clf.get_score(importance_type='gain')
+    print(feature_importance)
+    print(len(feature_importance))
     print(data.shape[1])
 
-
+    test = {key:sigmoid(value) for key, value in feature_importance.items()}
+    print(test)
+    print(max(test.values()))
     # Plot feature importance
     xgb.plot_importance(clf)
     # plt.figure(figsize = (16, 12))
