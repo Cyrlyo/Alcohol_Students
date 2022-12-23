@@ -10,16 +10,14 @@ if __name__ == "__main__" :
     
     data = importData("./Data/student_all.csv")
     data = prepareData(data)
-    print(data["guardian"].unique())
-    print(data["absences"].unique())
-    print("\n\n")
-    print(data["guardian"].tail(3))
+    
+    print(list(data.columns))
     
     num_boost_round = 100
     nfold = 5
     
-    if False:
-        data_dmatrix = xgb.DMatrix(data=data[data.columns[:-2]], label=data["alc"], enable_categorical=True)
+    if True:
+        data_dmatrix = xgb.DMatrix(data=data[data.columns[:-1]], label=data["alc"], enable_categorical=True)
         xgb_cv = xgb.cv(dtrain=data_dmatrix, params={'objective':'reg:squarederror'}, nfold=nfold, metrics = 'rmse', seed=42, num_boost_round=num_boost_round)
 
         # Train the model
