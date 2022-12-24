@@ -25,10 +25,11 @@ def parseArguments() -> bool:
     return args.optimize, args.epoch, args.graph
     
 
-def saveScore(score: float):
+def saveScore(score: float, file_name: str = "best_score.txt"):
     
     checkExistingFolder("./weights")
-    with open("./weights/best_score.txt", "w") as file:
+    path_name = os.path.join("./weights", file_name)
+    with open(path_name, "w") as file:
         file.write(str(score))
 
 def loadScore(path: str):
@@ -48,10 +49,10 @@ def checkExistingFolder(path: str):
     if not result:
         os.mkdir(path)
     
-def saveWeights(weights: dict, path: str):
+def saveWeights(weights: dict, path: str, file_name: str = "weights.yaml"):
     
     checkExistingFolder(path)
-    full_path = os.path.join(path, "weights.yaml")
+    full_path = os.path.join(path, file_name)
     
     with open(full_path, "w") as file:
         yaml.dump(weights, file, default_flow_style=False)

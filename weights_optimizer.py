@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import xgboost as xgb
 from xgboost import Booster
-from utilities import importData, prepareData
+from utilities import importData, prepareData, saveWeights, saveScore
 
 NUM_BOOST_ROUND = 20
 NFOLD = 5
@@ -55,5 +55,6 @@ if __name__ == "__main__" :
 
     model = XGBoostClassification(data, NUM_BOOST_ROUND, NFOLD)
     weights_xgboost = featureImportance(model)
+    saveWeights(weights_xgboost, "./weights")
     
     

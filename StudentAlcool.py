@@ -118,8 +118,8 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray, epoch: int=10) -> T
                 print("\nWeights & score saved")
         except: 
             if not os.path.exists("./weights/best_score_random.txt") or not os.path.exists("./weights/weights_random.yaml"):
-                saveWeights(weights, "./weights")
-                saveScore(max(score_list))
+                saveWeights(weights, "./weights", "weights_random.yaml")
+                saveScore(max(score_list), "best_score_random.txt")
                 print("\nWeights & score saved")
     
         delta_time = time.time() - start_time
