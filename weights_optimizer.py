@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import xgboost as xgb
 from xgboost import Booster
 from utilities import importData, prepareData, saveWeights, saveScore
+from studentAlcool import louvainPartitioning, refactoringPartition, louvain_community_quality
 
 NUM_BOOST_ROUND = 20
 NFOLD = 5
@@ -56,6 +57,7 @@ def XGBoostWeightsOptimizer(data: DataFrame) -> dict:
     weights_xgboost = featureImportance(model)
     
     saveWeights(weights_xgboost, "./weights", "weights_xgboost.yaml")
+    #TODO: add calculate score for a graph
 
 if __name__ == "__main__" :
     
