@@ -55,6 +55,6 @@ if __name__ == "__main__" :
 
     model = XGBoostClassification(data, NUM_BOOST_ROUND, NFOLD)
     weights_xgboost = featureImportance(model)
-    saveWeights(weights_xgboost, "./weights")
+    # saveWeights(weights_xgboost, "./weights", "weights_xgboost.yaml")
     
     
