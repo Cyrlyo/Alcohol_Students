@@ -17,12 +17,15 @@ from utilities import *
 
 DATA_PATH = "./Data/student_all.csv"
 
-def createGraph(G: Graph, data: DataFrame, data_vec: ndarray, reuse: bool = True, random_weights: bool = True) -> Tuple[Graph, dict]:
+def createGraph(G: Graph, data: DataFrame, data_vec: ndarray, reuse: bool = True, random_weights: bool = True, xbgweights: bool = False) -> Tuple[Graph, dict]:
     
     if random_weights:
         weights = randomWeights(data, reuse)
     else:
-        weights = loadWeights("./weights/weights_random.yaml")
+        if xbgweights:
+            weights = loadWeights("./weights/weights_xgboost.yaml")
+        else:
+            weights = loadWeights("./weights/weights_random.yaml")
     
     columns_name = list(data.columns)
     list_of_scores = []
@@ -148,7 +151,7 @@ if __name__ == "__main__":
     
     start_time = time.time()
     
-    optimize, epoch, graph = parseArguments()
+    optimize, epoch, graph, xbgweights = parseArguments()
     
     
     data, data_vec = retrieveData(DATA_PATH)

@@ -49,7 +49,13 @@ def plotFeatureImportance(model: Booster) -> None:
     xgb.plot_importance(model)
     plt.show()
 
-
+def XGBoostWeightsOptimize(data: DataFrame) -> dict:
+    
+    data = changeDataCategory(data)
+    model = XGBoostClassification(data, NUM_BOOST_ROUND, NFOLD)
+    weights_xgboost = featureImportance(model)
+    
+    return weights_xgboost
 
 if __name__ == "__main__" :
     
