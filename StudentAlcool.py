@@ -144,6 +144,22 @@ def randomWeightOptimizer(data: DataFrame, data_vec: ndarray, epoch: int = 10):
     print(f"Best score: {max(score_list)}")
 
 
+def count_and_remove_extra_edges(graph):
+  # On parcourt tous les noeuds du graphe
+  count = 0
+  for node1 in graph.nodes():
+    for node2 in graph.nodes():
+      # On ne s'intéresse qu'aux noeuds différents
+      if node1 != node2:
+        # On compte le nombre d'arêtes entre les deux noeuds
+        edge_count = len(graph.edges(node1, node2))
+
+        # Si il y a plus d'une arête, on les supprime toutes
+        if edge_count > 1:
+        #   graph.remove_edges_from(graph.edges(node1, node2))
+            count += 1
+    print(count)
+
 if __name__ == "__main__":
     
     start_time = time.time()
