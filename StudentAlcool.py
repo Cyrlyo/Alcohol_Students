@@ -67,7 +67,7 @@ def randomWeights(data: DataFrame, reuse: bool) -> dict:
 
 def louvainPartitioning(G: Graph) -> dict:
     
-    partition = community_louvain.best_partition(G)
+    partition = community_louvain.best_partition(G, random_state=42)
     print(f"\nNumber of partitions: {len(set(partition.values()))}")
     return partition
 
