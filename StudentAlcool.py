@@ -151,7 +151,7 @@ if __name__ == "__main__":
     
     start_time = time.time()
     
-    optimize, epoch, graph, xbgweights = parseArguments()
+    optimize, epoch, graph, xgbweights = parseArguments()
     
     
     data, data_vec = retrieveData(DATA_PATH)
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     
     if graph:
         G = nx.Graph()
-        G, weights = createGraph(G, data, data_vec, random_weights=False)
+        G, weights = createGraph(G, data, data_vec, random_weights=False, xbgweights=xgbweights)
         graphPlot(G)
         
         partition = louvainPartitioning(G)

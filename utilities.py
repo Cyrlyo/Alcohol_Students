@@ -19,11 +19,11 @@ def parseArguments() -> bool:
     parser.add_argument("-o", "--optimize", action="store_true", help="Enable optimizing weights", required=False)
     parser.add_argument("-e", "--epoch", type=int, required=False, help="Number of epoch to optimize weights", default=10, metavar="")
     parser.add_argument("-g", "--graph", action="store_true", help="Create a graph with best saved weights", required=False)
-    parser.add_argument("-x", "--xgb-weights", action="store_true", help="Use XGBoost Optimize weights (by default use random optimized weights)")
+    parser.add_argument("-x", "--xgb_weights", action="store_true", help="Use XGBoost Optimize weights (by default use random optimized weights)")
     
     args = parser.parse_args()
     
-    return args.optimize, args.epoch, args.graph, args.xbgweights
+    return args.optimize, args.epoch, args.graph, args.xgb_weights
     
 
 def saveScore(score: float, file_name: str = "best_score.txt"):
