@@ -3,7 +3,11 @@ from pandas import DataFrame
 import numpy as np
 import matplotlib.pyplot as plt
 import xgboost as xgb
+from xgboost import Booster
 from utilities import importData, prepareData
+
+NUM_BOOST_ROUND = 100
+NFOLD = 5
 
 
 def changeDataCategory(data: DataFrame) -> DataFrame:
@@ -17,25 +21,37 @@ def changeDataCategory(data: DataFrame) -> DataFrame:
             # print(f"{col}:\t{len(unique_values[col])}\t{unique_values[col]}\n")
     return data
 
-def sigmoid(x):
+def reduceValueRange(x: float) -> float:
     #TODO: rename this function
   return (1 / (1 + np.exp(-x)))*2
+
+def XGBoostClassification(data: DataFrame, num_boost_round: int, nfold: int) -> Booster:
+    
+    data_dmatrix = xgb.DMatrix(data=data[data.columns[:-2]].drop(columns=["Dalc", "Walc"]), label=data["alc"], enable_categorical=True)
+    xgb_cv = xgb.cv(dtrain=data_dmatrix, params={'objective':'reg:squarederror'}, nfold=nfold, metrics = 'rmse', seed=42, num_boost_round=num_boost_round)
+    model = xgb.train({'objective':'reg:squarederror', 'eval_metric': 'rmse', 'seed': 42}, data_dmatrix, num_boost_round=num_boost_round)
+    
+    return model
+
+
+def featureImportance(model: Booster) -> dict:
+    
+    feature_importance = model.get_score(importance_type='gain')
+    weights_xgboost = {key:reduceValueRange(value) for key, value in feature_importance.items()}
+
+    return weights_xgboost
+    
+def plotFeatureImportance(model: Booster) -> None:
+    
+    xgb.plot_importance(model)
+    plt.show()
 
 if __name__ == "__main__" :
     
     data = importData("./Data/student_all.csv")
     data = prepareData(data)
     data = changeDataCategory(data)
-    
-    num_boost_round = 100
-    nfold = 5
-    
-    data_dmatrix = xgb.DMatrix(data=data[data.columns[:-2]].drop(columns=["Dalc", "Walc"]), label=data["alc"], enable_categorical=True)
-    xgb_cv = xgb.cv(dtrain=data_dmatrix, params={'objective':'reg:squarederror'}, nfold=nfold, metrics = 'rmse', seed=42, num_boost_round=num_boost_round)
 
-    # Train the model
-    num_boost_round = 20
-    clf = xgb.train({'objective':'reg:squarederror', 'eval_metric': 'rmse', 'seed': 42}, data_dmatrix, num_boost_round=num_boost_round)
 
     # plt.figure(figsize=(14, 8))
     # plt.errorbar(xgb_cv.index, xgb_cv['train-rmse-mean'], yerr=xgb_cv['train-rmse-std'], label='train_rmse')
@@ -45,16 +61,4 @@ if __name__ == "__main__" :
     # plt.xlabel('Round number')
     # plt.ylabel('Mean RMSE')
     # plt.show()
-
-    feature_importance = clf.get_score(importance_type='gain')
-    print(feature_importance)
-    print(len(feature_importance))
-    print(data.shape[1])
-
-    weights_xgboost = {key:sigmoid(value) for key, value in feature_importance.items()}
-    print(weights_xgboost)
-    print(max(weights_xgboost.values()))
-    # Plot feature importance
-    xgb.plot_importance(clf)
-    # plt.figure(figsize = (16, 12))
-    plt.show()
+    
