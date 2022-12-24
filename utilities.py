@@ -34,7 +34,7 @@ def saveScore(score: float, file_name: str = "best_score.txt"):
 
 def loadScore(path: str):
     
-    with open("./weights/best_score.txt", "r") as file:
+    with open(path, "r") as file:
         best_score = file.read()
     return best_score
 
