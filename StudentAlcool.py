@@ -15,13 +15,14 @@ from typing import List,  Tuple
 import time
 from utilities import *
 
+DATA_PATH = "./Data/student_all.csv"
 
 def createGraph(G: Graph, data: DataFrame, data_vec: ndarray, reuse: bool = True, random_weights: bool = True) -> Tuple[Graph, dict]:
     
     if random_weights:
         weights = randomWeights(data, reuse)
     else:
-        weights = loadWeights("./weights/weights.yaml")
+        weights = loadWeights("./weights/weights_random.yaml")
     
     columns_name = list(data.columns)
     list_of_scores = []
@@ -93,7 +94,7 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray, epoch: int=10) -> T
         print("----------------")
         
         try:
-            best_saved_score = float(loadScore("./weights/best_score.txt"))
+            best_saved_score = float(loadScore("./weights/best_score_random.txt"))
             print(f"Best saved score: {best_saved_score}")
         except:
             print("Saved score not found, will be created")
@@ -116,7 +117,7 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray, epoch: int=10) -> T
                 saveScore(max(score_list))
                 print("\nWeights & score saved")
         except: 
-            if not os.path.exists("./weights/best_score.txt") or not os.path.exists("./weights/weights.yaml"):
+            if not os.path.exists("./weights/best_score_random.txt") or not os.path.exists("./weights/weights_random.yaml"):
                 saveWeights(weights, "./weights")
                 saveScore(max(score_list))
                 print("\nWeights & score saved")
@@ -150,12 +151,12 @@ if __name__ == "__main__":
     optimize, epoch, graph = parseArguments()
     
     
-    data, data_vec = retrieveData("./Data/student_all.csv")
+    data, data_vec = retrieveData(DATA_PATH)
     
     if optimize:
         randomWeightOptimizer(data, data_vec, epoch)
-# Change weights.yaml name by random_weights.yaml
-# same for best_score.txt
+# Change weights_random.yaml name by random_weights_random.yaml
+# same for best_score_random.txt
     
     
     if graph:
