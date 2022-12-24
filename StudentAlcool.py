@@ -54,8 +54,11 @@ def randomWeights(data: DataFrame, reuse: bool) -> dict:
     if reuse:
         random.seed(42)
     weights = {key:random.uniform(0, 2) for key in list(data.columns)}
-    #TODO: mettre Dalc, Walc & Alc a 2 si on pondère par rapport au risque de consommer de l'alcool
     weights["Name"] = 0
+    weights["Alc"] = 1
+    weights["Dalc"] = 1
+    weights["Walc"] = 1
+    
     return weights
 
 def louvainPartitioning(G: Graph) -> dict:
