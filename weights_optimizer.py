@@ -37,6 +37,10 @@ def featureImportance(model: Booster) -> dict:
     
     feature_importance = model.get_score(importance_type='gain')
     weights_xgboost = {key:reduceValueRange(value) for key, value in feature_importance.items()}
+    weights_xgboost["Name"] = 0
+    weights_xgboost["Alc"] = 1
+    weights_xgboost["Dalc"] = 1
+    weights_xgboost["Walc"] = 1
 
     return weights_xgboost
     

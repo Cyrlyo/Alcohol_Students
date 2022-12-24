@@ -155,9 +155,6 @@ if __name__ == "__main__":
     
     if optimize:
         randomWeightOptimizer(data, data_vec, epoch)
-# Change weights_random.yaml name by random_weights_random.yaml
-# same for best_score_random.txt
-    
     
     if graph:
         G = nx.Graph()
