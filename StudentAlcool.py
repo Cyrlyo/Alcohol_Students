@@ -144,7 +144,7 @@ def randomWeightOptimizer(data: DataFrame, data_vec: ndarray, epoch: int = 10):
     print(f"Best score: {max(score_list)}")
 
 
-def count_and_remove_extra_edges(graph):
+def countAndRemoveExtraEdges(graph):
   # On parcourt tous les noeuds du graphe
   count = 0
   for node1 in graph.nodes():
