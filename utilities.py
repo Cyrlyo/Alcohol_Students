@@ -19,21 +19,23 @@ def parseArguments() -> bool:
     parser.add_argument("-o", "--optimize", action="store_true", help="Enable optimizing weights", required=False)
     parser.add_argument("-e", "--epoch", type=int, required=False, help="Number of epoch to optimize weights", default=10, metavar="")
     parser.add_argument("-g", "--graph", action="store_true", help="Create a graph with best saved weights", required=False)
+    parser.add_argument("-x", "--xgb_weights", action="store_true", help="Use XGBoost Optimize weights (by default use random optimized weights)")
     
     args = parser.parse_args()
     
-    return args.optimize, args.epoch, args.graph
+    return args.optimize, args.epoch, args.graph, args.xgb_weights
     
 
-def saveScore(score: float):
+def saveScore(score: float, file_name: str = "best_score.txt"):
     
     checkExistingFolder("./weights")
-    with open("./weights/best_score.txt", "w") as file:
+    path_name = os.path.join("./weights", file_name)
+    with open(path_name, "w") as file:
         file.write(str(score))
 
 def loadScore(path: str):
     
-    with open("./weights/best_score.txt", "r") as file:
+    with open(path, "r") as file:
         best_score = file.read()
     return best_score
 
@@ -48,10 +50,10 @@ def checkExistingFolder(path: str):
     if not result:
         os.mkdir(path)
     
-def saveWeights(weights: dict, path: str):
+def saveWeights(weights: dict, path: str, file_name: str = "weights.yaml"):
     
     checkExistingFolder(path)
-    full_path = os.path.join(path, "weights.yaml")
+    full_path = os.path.join(path, file_name)
     
     with open(full_path, "w") as file:
         yaml.dump(weights, file, default_flow_style=False)
@@ -90,12 +92,19 @@ def prepareData(data: DataFrame) -> DataFrame:
     except: pass
     
     data['alc'] = data['Dalc'] + data['Walc']
-    data["guardian"][data["guardian"] == "father"] = "parent"
-    data["guardian"][data["guardian"] == "mother"] = "parent"
-    data['absences'][(data["absences"] > 0) & (data["absences"] < 11)] = 1
+    data["guardian"] = data["guardian"].replace({"mother": "parent", "father": "parent"})
+    # data["absences"] = data["absences"].apply(discretise)
 
     data = createName(data)
     return data
+
+def discretise(x: int) -> int:
+  if x > 11:
+    return x
+  elif x > 0:
+    return 1
+  else:
+    return 0
 
 def printScoresStats(list_of_scores: list):
     
