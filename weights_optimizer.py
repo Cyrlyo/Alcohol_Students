@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import xgboost as xgb
 from xgboost import Booster
 from utilities import importData, prepareData, saveWeights, saveScore
-from studentAlcool import louvainPartitioning, refactoringPartition, louvain_community_quality
 
 NUM_BOOST_ROUND = 20
 NFOLD = 5
@@ -23,7 +22,7 @@ def changeDataCategory(data: DataFrame) -> DataFrame:
     return data
 
 def reduceValueRange(x: float) -> float:
-  return (1 / (1 + np.exp(-x)))*2
+  return float((1 / (1 + np.exp(-x)))*2)
 
 def XGBoostClassification(data: DataFrame, num_boost_round: int, nfold: int) -> Booster:
     
@@ -39,7 +38,7 @@ def featureImportance(model: Booster) -> dict:
     feature_importance = model.get_score(importance_type='gain')
     weights_xgboost = {key:reduceValueRange(value) for key, value in feature_importance.items()}
     weights_xgboost["Name"] = 0
-    weights_xgboost["Alc"] = 1
+    weights_xgboost["alc"] = 1
     weights_xgboost["Dalc"] = 1
     weights_xgboost["Walc"] = 1
 
@@ -55,18 +54,8 @@ def XGBoostWeightsOptimizer(data: DataFrame) -> dict:
     data = changeDataCategory(data)
     model = XGBoostClassification(data, NUM_BOOST_ROUND, NFOLD)
     weights_xgboost = featureImportance(model)
+    print("Weights optimized")
     
     saveWeights(weights_xgboost, "./weights", "weights_xgboost.yaml")
     #TODO: add calculate score for a graph
-
-if __name__ == "__main__" :
-    
-    data = importData("./Data/student_all.csv")
-    data = prepareData(data)
-    data = changeDataCategory(data)
-
-    model = XGBoostClassification(data, NUM_BOOST_ROUND, NFOLD)
-    weights_xgboost = featureImportance(model)
-    # saveWeights(weights_xgboost, "./weights", "weights_xgboost.yaml")
-    
     
