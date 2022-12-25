@@ -147,6 +147,19 @@ def randomWeightOptimizer(data: DataFrame, data_vec: ndarray, epoch: int = 10):
     print(f"\nBest model: model_{np.argmax(score_list)}")
     print(f"Best score: {max(score_list)}")
 
+def saveXGBScore(score: float):
+    
+    try:
+        best_saved_score = float(loadScore("./weights/best_score_xgboost.txt"))
+        print(f"Best saved score: {best_saved_score}")
+    except:
+        print("Saved score not found, will be created")
+    
+    try: 
+        if best_saved_score < score:
+            saveScore(modularity, "best_score_xgboost.txt")
+    except:
+        saveScore(modularity, "best_score_xgboost.txt")
 
 if __name__ == "__main__":
     
@@ -173,6 +186,9 @@ if __name__ == "__main__":
 
         part_by_com = refactoringPartition(partition)
         modularity = louvain_community_quality(G, part_by_com)
+        
+        if xgbweights:
+            saveXGBScore(modularity)
 
         data = addPartitionToData(data, partition)
         saveDFToCSV(data)
