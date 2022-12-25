@@ -14,6 +14,7 @@ import os
 from typing import List,  Tuple
 import time
 from utilities import *
+from weights_optimizer import XGBoostWeightsOptimizer
 
 DATA_PATH = "./Data/student_all.csv"
 
@@ -157,7 +158,10 @@ if __name__ == "__main__":
     data, data_vec = retrieveData(DATA_PATH)
     
     if optimize:
-        randomWeightOptimizer(data, data_vec, epoch)
+        if xgbweights:
+            XGBoostWeightsOptimizer(data)
+        else:
+            randomWeightOptimizer(data, data_vec, epoch)
     
     if graph:
         G = nx.Graph()
