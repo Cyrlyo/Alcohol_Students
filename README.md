@@ -11,12 +11,14 @@
 - -o, --optimize: run the script to optimise weights only
 - -e, --epoch: choose the number of iteration when optimizing weights (by default equals to 10)
 - -g, --graph: create a graph using the last saved weights
+- -x, --xgb_weights: Use XGBoost Optimize weights (by default use random optimized weights)
 
 Example:
 
 - `python studentAlcohol.py -o -e 100`: we will look for the best weights by iterating 100 times
 - `python studentAlcohol.py -h`: show help
-- `python studentAlcohol.py -g`: create a graph using the last saved weights
+- `python studentAlcohol.py -g`: create a graph using the last random saved weights
+- `python studentAlcohol.py -g -x`: create a graph using the last xgboost optimized saved weights
 
 ## Miscellaneous informations
 
