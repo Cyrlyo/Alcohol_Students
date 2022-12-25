@@ -192,6 +192,7 @@ if __name__ == "__main__":
 
         data = addPartitionToData(data, partition)
         saveDFToCSV(data)
+        #TODO: save file depeding of weights optimizer
         
     delta_time = time.time() - start_time
     print(f"Execution time: {time.strftime('%H:%M:%S', time.gmtime(delta_time))}")
