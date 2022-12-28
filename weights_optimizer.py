@@ -25,7 +25,7 @@ def reduceValueRange(x: float) -> float:
   return float((1 / (1 + np.exp(-x)))*2)
 
 def XGBoostClassification(data: DataFrame, num_boost_round: int, nfold: int) -> Booster:
-    
+    #TODO: delete name
     data_dmatrix = xgb.DMatrix(data=data[data.columns[:-2]].drop(columns=["Dalc", "Walc"]), label=data["alc"], enable_categorical=True)
     xgb_cv = xgb.cv(dtrain=data_dmatrix, params={'objective':'reg:squarederror'}, nfold=nfold, metrics = 'rmse', seed=42, num_boost_round=num_boost_round)
     model = xgb.train({'objective':'reg:squarederror', 'eval_metric': 'rmse', 'seed': 42}, data_dmatrix, num_boost_round=num_boost_round)
@@ -58,4 +58,3 @@ def XGBoostWeightsOptimizer(data: DataFrame) -> dict:
     
     saveWeights(weights_xgboost, "./weights", "weights_xgboost.yaml")
     #TODO: add calculate score for a graph
-    
