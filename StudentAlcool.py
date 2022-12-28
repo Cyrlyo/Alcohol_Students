@@ -39,6 +39,7 @@ def createGraph(G: Graph, data: DataFrame, data_vec: ndarray, reuse: bool = True
                     list_of_scores.append(score)
 
             if score < sum(list(weights.values()))//3:
+                #TODO: on pourrait optimiser le seuil (le diviser par 3)
                 G.add_edge(data_vec[vec, -1], data_vec[vecs, -1])
             else: 
                 pass
@@ -49,6 +50,15 @@ def createGraph(G: Graph, data: DataFrame, data_vec: ndarray, reuse: bool = True
     return G, weights
 
 def prepareGraph(G: Graph) -> Graph:
+    """
+    Delete self loop.
+
+    Args:
+        G (Graph): _description_
+
+    Returns:
+        Graph: _description_
+    """
     
     print("Deleting selfloops\n")
     G.remove_edges_from(nx.selfloop_edges(G))
@@ -63,6 +73,8 @@ def randomWeights(data: DataFrame, reuse: bool) -> dict:
     weights["Alc"] = 1
     weights["Dalc"] = 1
     weights["Walc"] = 1
+    # Changer 1 par 2
+    # Envoyer mail a Delbot
     
     return weights
 
@@ -84,6 +96,7 @@ def louvain_community_quality(G: Graph, communities: list[set]) -> float:
     - modularity: float, the modularity score
     """
     modularity = nx.algorithms.community.modularity(G, communities)
+    #TODO: vérifier sur internet
     print(f"Modularity for this graph: {round(modularity, 4)}\n")
     
     return modularity
