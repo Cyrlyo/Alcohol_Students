@@ -130,8 +130,8 @@ def findBestRandomWeight(data: DataFrame, data_vec: ndarray, epoch: int=10) -> T
         
         try:
             if max(score_list) > best_saved_score:
-                saveWeights(weights, "./weights")
-                saveScore(max(score_list))
+                saveWeights(weights, "./weights", "weights_random.yaml")
+                saveScore(max(score_list), "best_score_random.txt")
                 print("\nWeights & score saved")
         except: 
             if not os.path.exists("./weights/best_score_random.txt") or not os.path.exists("./weights/weights_random.yaml"):
