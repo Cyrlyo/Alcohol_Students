@@ -169,11 +169,12 @@ def saveXGBScore(score: float):
     except:
         print("Saved score not found, will be created")
     
-    try: 
-        if best_saved_score < score:
-            saveScore(modularity, "best_score_xgboost.txt")
-    except:
-        saveScore(modularity, "best_score_xgboost.txt")
+    # try: 
+        # if best_saved_score < score:
+            # saveScore(modularity, "best_score_xgboost.txt")
+    # except:
+        # saveScore(modularity, "best_score_xgboost.txt")
+    saveScore(modularity, "best_score_xgboost.txt")
 
 if __name__ == "__main__":
     
