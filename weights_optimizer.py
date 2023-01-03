@@ -32,11 +32,22 @@ def XGBoostClassification(data: DataFrame, num_boost_round: int, nfold: int) -> 
     
     return model
 
+def computeScale(raw_weights: dict) :
+    values = list(raw_weights.values())
+    return min(values), max(values)
+
+def reduceValueScale(x: float, min: float, max: float):
+    
+    return (x - min) * 2 / max
 
 def featureImportance(model: Booster) -> dict:
     
     feature_importance = model.get_score(importance_type='gain')
-    weights_xgboost = {key:reduceValueRange(value) for key, value in feature_importance.items()}
+    print(f"Raw weights: {feature_importance}\n\nMin: {min(list(feature_importance.values()))}\
+        Max: {max(list(feature_importance.values()))}\n\n")
+    min_, max_ = computeScale(feature_importance)
+    weights_xgboost = {key:reduceValueScale(value, min_, max_) for key, value in feature_importance.items()}
+    # weights_xgboost = {key:reduceValueRange(value) for key, value in feature_importance.items()}
     weights_xgboost["Name"] = 0
     weights_xgboost["alc"] = 1
     weights_xgboost["Dalc"] = 1
@@ -54,6 +65,7 @@ def XGBoostWeightsOptimizer(data: DataFrame) -> dict:
     data = changeDataCategory(data)
     model = XGBoostClassification(data, NUM_BOOST_ROUND, NFOLD)
     weights_xgboost = featureImportance(model)
+    print(weights_xgboost)
     print("Weights optimized")
     
     saveWeights(weights_xgboost, "./weights", "weights_xgboost.yaml")
