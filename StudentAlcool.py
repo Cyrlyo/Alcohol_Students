@@ -70,9 +70,10 @@ def randomWeights(data: DataFrame, reuse: bool) -> dict:
         random.seed(42)
     weights = {key:random.uniform(0, 2) for key in list(data.columns)}
     weights["Name"] = 0
-    weights["Alc"] = 1
+    # weights["Alc"] = 1
     weights["Dalc"] = 1
     weights["Walc"] = 1
+    weights["alc"] = 1
     # Changer 1 par 2
     # Envoyer mail a Delbot
     
