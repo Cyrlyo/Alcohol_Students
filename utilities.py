@@ -39,10 +39,13 @@ def loadScore(path: str):
         best_score = file.read()
     return best_score
 
-def saveDFToCSV(data: DataFrame):
+def saveDFToCSV(data: DataFrame, xbgweights:bool = True):
     
-    checkExistingFolder("./Data")    
-    data.to_csv("./Data/student_all_community.csv", sep=",", index=False)
+    checkExistingFolder("./Data")
+    if xbgweights:
+        data.to_csv("./Data/student_all_community_xgbweights.csv", sep=",", index=False)
+    else:
+        data.to_csv("./Data/student_all_community_randomweights.csv", sep=",", index=False)
 
 def checkExistingFolder(path: str):
     

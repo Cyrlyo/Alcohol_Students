@@ -206,7 +206,7 @@ if __name__ == "__main__":
             saveXGBScore(modularity)
 
         data = addPartitionToData(data, partition)
-        saveDFToCSV(data)
+        saveDFToCSV(data, xbgweights=xgbweights)
         #TODO: save file depeding of weights optimizer
         
     delta_time = time.time() - start_time
