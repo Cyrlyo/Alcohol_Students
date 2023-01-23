@@ -12,3 +12,5 @@ venv
 ./Data
 ./__pychache__
 __pycache__
+.docx
+*.docx
