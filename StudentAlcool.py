@@ -75,7 +75,6 @@ def randomWeights(data: DataFrame, reuse: bool) -> dict:
     weights["Walc"] = 1
     weights["alc"] = 1
     # Changer 1 par 2
-    # Envoyer mail a Delbot
     
     return weights
 
