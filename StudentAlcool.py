@@ -19,6 +19,28 @@ from weights_optimizer import XGBoostWeightsOptimizer
 DATA_PATH = "./Data/student_all.csv"
 
 def createGraph(G: Graph, data: DataFrame, data_vec: ndarray, reuse: bool = True, random_weights: bool = True, xbgweights: bool = False) -> Tuple[Graph, dict]:
+    """
+    
+    This function takes in a Graph object, a DataFrame, and an ndarray as input. It also takes in optional boolean
+    arguments for reusing weights, using random weights, and using xgboost weights. 
+
+    The function calculates the weights for the edges of the graph based on the input data and weights.
+    It then adds edges to the graph based on a threshold score calculated from the weights and the differences
+    in the data vectors. The function also includes print and plot functions for displaying statistics about
+    the graph and the scores.
+    
+    Parameters:
+        - G (Graph): Graph object to update
+        - data (DataFrame): Input data for calculating weights
+        - data_vec (ndarray): Array of data vectors for adding edges to the graph
+        - reuse (bool): Optional argument for reusing weights. Default is True
+        - random_weights (bool): Optional argument for using random weights. Default is True
+        - xbgweights (bool): Optional argument for using xgboost weights. Default is False
+
+    Returns:
+        Tuple[Graph, dict]: Updated Graph object and the weights used for the edges
+
+    """
     
     if random_weights:
         weights = randomWeights(data, reuse)
