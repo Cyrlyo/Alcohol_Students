@@ -14,3 +14,5 @@ venv
 __pycache__
 .docx
 *.docx
+.tmp
+*.tmp
