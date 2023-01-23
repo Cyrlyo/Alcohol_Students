@@ -87,7 +87,18 @@ def prepareGraph(G: Graph) -> Graph:
     return G
 
 def randomWeights(data: DataFrame, reuse: bool) -> dict:
+    """
+    This function takes in a DataFrame as input and generates a dictionary of random weights for
+    each column in the data. It also includes an option to reuse the same random seed.
     
+    Parameters:
+        - data (DataFrame): Input data for generating weights
+        - reuse (bool): Boolean argument for reusing the same random seed. Default is False
+
+    Returns:
+        dict: A dictionary containing the generated weights for each column in the input data
+
+    """
     if reuse:
         random.seed(42)
     weights = {key:random.uniform(0, 2) for key in list(data.columns)}
