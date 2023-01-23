@@ -112,6 +112,16 @@ def randomWeights(data: DataFrame, reuse: bool) -> dict:
     return weights
 
 def louvainPartitioning(G: Graph) -> dict:
+    """
+    This function takes in a Graph object as input and applies the Louvain community detection algorithm on the graph.
+    It returns a dictionary containing the partitioning of the graph's nodes and also prints the number of partitions.
+    
+    Parameters:
+        - G (Graph): The input graph to perform the partitioning on
+
+    Returns:
+        dict: A dictionary containing the partitioning of the input graph's nodes
+    """
     
     partition = community_louvain.best_partition(G, random_state=42)
     print(f"\nNumber of partitions: {len(set(partition.values()))}")
