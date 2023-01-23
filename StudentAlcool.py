@@ -145,6 +145,19 @@ def louvain_community_quality(G: Graph, communities: list[set]) -> float:
     return modularity
 
 def findBestRandomWeight(data: DataFrame, data_vec: ndarray, epoch: int=10) -> Tuple[dict, ndarray]:
+    """
+    This function takes in a DataFrame and an ndarray as input and runs a loop for a specified number of epochs to
+    generate random weights for the input data and apply the Louvain community detection algorithm on the resulting graph.
+    It also includes options to save the best weights and score, and prints the execution time for each epoch.
+    
+    Parameters:
+        - data (DataFrame): Input data for generating weights
+        - data_vec (ndarray): Array of data vectors for adding edges to the graph
+        - epoch (int): Number of times to run the weight generation and partitioning. Default is 10
+
+    Returns:
+        Tuple[dict, ndarray]: A dictionary containing the generated weights for each epoch and an array of the scores for each epoch
+    """
     
     results = {}
     score_list = []
