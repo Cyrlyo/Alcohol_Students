@@ -139,7 +139,6 @@ def louvain_community_quality(G: Graph, communities: list[set]) -> float:
     - modularity: float, the modularity score
     """
     modularity = nx.algorithms.community.modularity(G, communities)
-    #TODO: vérifier sur internet
     print(f"Modularity for this graph: {round(modularity, 4)}\n")
     
     return modularity
@@ -262,7 +261,9 @@ if __name__ == "__main__":
 
         data = addPartitionToData(data, partition)
         saveDFToCSV(data, xbgweights=xgbweights)
-        #TODO: save file depeding of weights optimizer
+        
+        saveGraphGephi(G, xgbweights)
+
         
     delta_time = time.time() - start_time
     print(f"Execution time: {time.strftime('%H:%M:%S', time.gmtime(delta_time))}")

@@ -47,6 +47,14 @@ def saveDFToCSV(data: DataFrame, xbgweights:bool = True):
     else:
         data.to_csv("./Data/student_all_community_randomweights.csv", sep=",", index=False)
 
+def saveGraphGephi(G: Graph, xbgweights:bool = True):
+    
+    checkExistingFolder("./Graph")
+    if xbgweights:
+        nx.write_gexf(G, "./Graph/graph_xgboost.gexf")
+    else: 
+        nx.write_gexf(G, "./Graph/graph_random.gexf")
+
 def checkExistingFolder(path: str):
     
     result = os.path.exists(path)
