@@ -111,7 +111,7 @@ def randomWeights(data: DataFrame, reuse: bool) -> dict:
     
     return weights
 
-def louvainPartitioning(G: Graph) -> dict:
+def louvainPartitioning(G: Graph) -> Tuple[dict, Graph]:
     """
     This function takes in a Graph object as input and applies the Louvain community detection algorithm on the graph.
     It returns a dictionary containing the partitioning of the graph's nodes and also prints the number of partitions.
@@ -125,7 +125,9 @@ def louvainPartitioning(G: Graph) -> dict:
     
     partition = community_louvain.best_partition(G, random_state=42)
     print(f"\nNumber of partitions: {len(set(partition.values()))}")
-    return partition
+    
+    nx.set_node_attributes(G, partition, 'partition')
+    return partition, G
 
 def louvain_community_quality(G: Graph, communities: list[set]) -> float:
     """
@@ -250,7 +252,7 @@ if __name__ == "__main__":
         G, weights = createGraph(G, data, data_vec, random_weights=False, xbgweights=xgbweights)
         graphPlot(G)
         
-        partition = louvainPartitioning(G)
+        partition, G = louvainPartitioning(G)
         plotGraphWithPartition(G, partition)
 
         part_by_com = refactoringPartition(partition)
