@@ -5,6 +5,8 @@
 - Open a prompt and run your virtual environment
 - Type `python studentAlcohol.py`
 
+Before opening the visualisation and statistics notebooks, you need to run the code to generate the data including the communities. In addition, you will find in the Graph folder the graphs in *.gexf* format in order to visualise them with Gephi.
+
 ## Script launch options
 
 - -h, --help: display all launch options
